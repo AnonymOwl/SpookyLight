@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class LevelItemData {
@@ -33,10 +35,6 @@ public class LevelMenu : MonoBehaviour {
 		Populate();
 	}
 	
-	void Update () {
-		
-	}
-
 	void Populate() {
 		GameObject newItem;
 		bool isFirst = true;
@@ -48,8 +46,12 @@ public class LevelMenu : MonoBehaviour {
 				newItem.GetComponent<Toggle>().isOn = false;
 			newItem.GetComponent<LevelItem>().data = item;
 			newItem.transform.Find("Label").GetComponent<Text>().text = item.Name;
-
 			isFirst = false;
 		}
+	}
+
+	public void PlayLevel() {
+		ApplicationModel.levelData = LevelToggleGroup.ActiveToggles().FirstOrDefault().gameObject.GetComponent<LevelItem>().data;
+		SceneManager.LoadScene("MapImportTest");
 	}
 }
